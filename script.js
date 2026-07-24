@@ -544,76 +544,225 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       // =========================
-      // CONFIRMATION MESSAGE
-      // =========================
+// SAVE ORDER DETAILS BEFORE CLEARING CART
+// =========================
 
-      let message = `
+// Create a copy of the cart before clearing it
+const orderedItems = cart.map((item) => ({
+  name: item.name,
+  price: item.price,
+  quantity: item.quantity
+}));
 
-        <h3>🎉 Order Confirmed!</h3>
 
-        <p>
-          Thank you,
+// Get delivery address
+const deliveryAddress =
+  document
+    .getElementById("customer-address")
+    .value
+    .trim();
+
+
+// Get delivery instructions
+const deliveryInstructions =
+  document
+    .getElementById("delivery-instructions")
+    .value
+    .trim();
+
+
+// Get pickup time
+const pickupTime =
+  document
+    .getElementById("pickup-time")
+    .value;
+
+
+// =========================
+// CREATE ORDER ITEMS HTML
+// =========================
+
+const orderItemsHTML =
+  orderedItems
+    .map((item) => {
+
+      return `
+        <div class="order-confirmation-item">
+
+          <span>
+            ${item.name} × ${item.quantity}
+          </span>
+
           <strong>
-            ${customerName}
-          </strong>!
-        </p>
-
-        <p>
-          Your order has been successfully placed.
-        </p>
-
-        <hr>
-
-        <p>
-          <strong>
-            Order Number:
+            ${formatCurrency(
+              item.price * item.quantity
+            )}
           </strong>
-          ${orderNumber}
-        </p>
 
-        <p>
-          <strong>
-            Items:
-          </strong>
-          ${totalItems}
-        </p>
-
-        <p>
-          <strong>
-            Order Type:
-          </strong>
-          ${
-            orderType === "delivery"
-              ? "🛵 Delivery"
-              : "🏪 Pick-Up"
-          }
-        </p>
-
-        <p>
-          <strong>
-            Payment:
-          </strong>
-          ${paymentMethod}
-        </p>
-
-        <p>
-          <strong>
-            Total:
-          </strong>
-          ${formatCurrency(finalTotal)}
-        </p>
-
-        <hr>
-
-        <p>
-          <strong>
-            Order Status:
-          </strong>
-          🟡 Order Received
-        </p>
-
+        </div>
       `;
 
+    })
+    .join("");
+
+
+// =========================
+// DELIVERY OR PICKUP DETAILS
+// =========================
+
+let fulfillmentDetails = "";
+
+
+if (orderType === "delivery") {
+
+  fulfillmentDetails = `
+
+    <p>
+      <strong>
+        🛵 Order Type:
+      </strong>
+      Delivery
+    </p>
+
+    <p>
+      <strong>
+        📍 Delivery Address:
+      </strong>
+      ${deliveryAddress}
+    </p>
+
+    ${
+      deliveryInstructions
+        ? `
+          <p>
+            <strong>
+              📝 Instructions:
+            </strong>
+            ${deliveryInstructions}
+          </p>
+        `
+        : ""
+    }
+
+  `;
+
+} else {
+
+  fulfillmentDetails = `
+
+    <p>
+      <strong>
+        🏪 Order Type:
+      </strong>
+      Pick-Up
+    </p>
+
+    <p>
+      <strong>
+        📍 Pick-Up Location:
+      </strong>
+      Kylie's Cafe & Restaurant
+    </p>
+
+    <p>
+      <strong>
+        ⏰ Pick-Up Time:
+      </strong>
+      ${pickupTime}
+    </p>
+
+  `;
+
+}
+
+
+// =========================
+// CONFIRMATION MESSAGE
+// =========================
+
+let message = `
+
+  <h3>🎉 Order Confirmed!</h3>
+
+  <p>
+    Thank you,
+    <strong>
+      ${customerName}
+    </strong>!
+  </p>
+
+  <p>
+    Your order has been successfully placed.
+  </p>
+
+  <hr>
+
+  <h4>Your Order</h4>
+
+  <div class="order-confirmation-items">
+
+    ${orderItemsHTML}
+
+  </div>
+
+  <hr>
+
+  <p>
+    <strong>
+      Subtotal:
+    </strong>
+    ${formatCurrency(subtotal)}
+  </p>
+
+  <p>
+    <strong>
+      Delivery Fee:
+    </strong>
+    ${formatCurrency(deliveryFee)}
+  </p>
+
+  <p>
+    <strong>
+      Total:
+    </strong>
+    ${formatCurrency(finalTotal)}
+  </p>
+
+  <hr>
+
+  <p>
+    <strong>
+      Order Number:
+    </strong>
+    ${orderNumber}
+  </p>
+
+  <p>
+    <strong>
+      📱 Phone:
+    </strong>
+    ${customerPhone}
+  </p>
+
+  ${fulfillmentDetails}
+
+  <p>
+    <strong>
+      💵 Payment:
+    </strong>
+    ${paymentMethod}
+  </p>
+
+  <hr>
+
+  <p>
+    <strong>
+      Order Status:
+    </strong>
+    🟡 Order Received
+  </p>
+
+`;
 
       checkoutMessage.innerHTML =
         message;
