@@ -401,34 +401,157 @@
       </section>
 
       <section id="checkout" class="section checkout-section">
-        <div class="section-heading">
-          <p class="eyebrow">Checkout</p>
-          <h2>Complete your order</h2>
-        </div>
-        <div class="checkout-grid">
-          <form id="checkout-form" class="checkout-form">
-            <label>
-              Full name
-              <input type="text" id="customer-name" placeholder="Juan Dela Cruz" required />
-            </label>
-            <label>
-              Phone number
-              <input type="tel" id="customer-phone" placeholder="0917 123 4567" required />
-            </label>
-            <label>
-              Delivery address
-              <textarea id="customer-address" rows="4" placeholder="Enter your address for pickup or delivery" required></textarea>
-            </label>
-            <button class="button primary" type="submit">Place Order</button>
-          </form>
-          <div class="checkout-info">
-            <h3>Order preview</h3>
-            <p>Choose your favorite dishes, add them to your cart, and confirm your order with our front-end checkout demo.</p>
-            <div id="checkout-message" class="checkout-message hidden"></div>
-          </div>
-        </div>
-      </section>
+  <div class="section-heading">
+    <p class="eyebrow">Checkout</p>
+    <h2>Complete your order</h2>
+  </div>
 
+  <div class="checkout-grid">
+
+    <form id="checkout-form" class="checkout-form">
+
+      <label>
+        Full name
+        <input
+          type="text"
+          id="customer-name"
+          placeholder="Juan Dela Cruz"
+          required
+        />
+      </label>
+
+      <label>
+        Phone number
+        <input
+          type="tel"
+          id="customer-phone"
+          placeholder="0917 123 4567"
+          required
+        />
+      </label>
+
+      <!-- ORDER TYPE -->
+      <div class="order-type-section">
+        <strong>How would you like to receive your order?</strong>
+
+        <div class="order-type-options">
+
+          <label class="order-option">
+            <input
+              type="radio"
+              name="order-type"
+              value="delivery"
+              checked
+            />
+            🛵 Delivery
+          </label>
+
+          <label class="order-option">
+            <input
+              type="radio"
+              name="order-type"
+              value="pickup"
+            />
+            🏪 Pick-Up
+          </label>
+
+        </div>
+      </div>
+
+      <!-- DELIVERY INFORMATION -->
+      <div id="delivery-fields">
+
+        <label>
+          Delivery address
+          <textarea
+            id="customer-address"
+            rows="4"
+            placeholder="Enter your complete delivery address"
+          ></textarea>
+        </label>
+
+        <label>
+          Landmark / Delivery Instructions
+          <textarea
+            id="delivery-instructions"
+            rows="3"
+            placeholder="Example: Near the school, blue gate"
+          ></textarea>
+        </label>
+
+      </div>
+
+      <!-- PICKUP INFORMATION -->
+      <div id="pickup-fields" class="hidden">
+
+        <label>
+          Pick-Up Location
+          <input
+            type="text"
+            id="pickup-location"
+            value="Kylie's Cafe & Restaurant"
+            readonly
+          />
+        </label>
+
+        <label>
+          Pick-Up Time
+          <select id="pickup-time">
+            <option value="ASAP">ASAP</option>
+            <option value="30 minutes">Within 30 minutes</option>
+            <option value="1 hour">Within 1 hour</option>
+            <option value="2 hours">Within 2 hours</option>
+          </select>
+        </label>
+
+      </div>
+
+      <!-- PAYMENT -->
+      <label>
+        Payment Method
+
+        <select id="payment-method" required>
+          <option value="">Select payment method</option>
+          <option value="Cash on Delivery">
+            Cash on Delivery
+          </option>
+          <option value="Cash on Pick-Up">
+            Cash on Pick-Up
+          </option>
+        </select>
+
+      </label>
+
+      <button
+        class="button primary"
+        type="submit"
+      >
+        Place Order
+      </button>
+
+    </form>
+
+    <!-- ORDER PREVIEW -->
+    <div class="checkout-info">
+
+      <h3>Order Preview</h3>
+
+      <div id="checkout-items"></div>
+
+      <div class="checkout-total">
+        <strong>Total:</strong>
+        <strong id="checkout-total-price">₱0.00</strong>
+      </div>
+
+      <div
+        id="checkout-message"
+        class="checkout-message hidden"
+      ></div>
+
+    </div>
+
+  </div>
+</section>
       <section id="contact" class="section contact-section">
         <div class="section-heading">
           <p class="eyebrow">Visit Us</p>
